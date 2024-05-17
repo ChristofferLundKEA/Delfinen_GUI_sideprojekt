@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.webeswimming.HelloController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="146.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="856.0" minWidth="10.0" prefWidth="856.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="192.0" minHeight="0.0" prefHeight="99.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="434.0" minHeight="10.0" prefHeight="256.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="242.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <HBox fx:id="BACK_BUTTON" prefHeight="100.0" prefWidth="848.0" GridPane.columnIndex="1">
+         <children>
+            <Label text="DELFINEN">
+               <font>
+                  <Font size="67.0" />
+               </font></Label>
+         </children>
+      </HBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+         <children>
+            <RadioButton fx:id="ADMIN_RB" mnemonicParsing="false" text="ADMIN">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="TRAINER_RB" mnemonicParsing="false" text="TRAINER">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </RadioButton>
+            <RadioButton fx:id="ACCOUNTANT_RB" mnemonicParsing="false" text="ACCOUNTANT">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </RadioButton>
+            <PasswordField maxWidth="-Infinity" prefHeight="25.0" prefWidth="169.0" promptText="PASSWORD">
+               <VBox.margin>
+                  <Insets right="10.0" top="10.0" />
+               </VBox.margin>
+            </PasswordField>
+            <Button fx:id="LOGIN_BUTTON" mnemonicParsing="false" onAction="#LOGIN_BUTTONOnAction" text="LOG IN">
+               <VBox.margin>
+                  <Insets top="2.0" />
+               </VBox.margin>
+            </Button>
+            <Button disable="true" mnemonicParsing="false" prefHeight="35.0" prefWidth="66.0" text="BACK">
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+         <padding>
+            <Insets left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <VBox fx:id="mainContainerID" prefHeight="434.0" prefWidth="861.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <ScrollPane fx:id="scrollPaneForData" fitToWidth="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
+         <content>
+            <VBox fx:id="VBoxForScrollPane">
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding></VBox>
+         </content>
+         <GridPane.margin>
+            <Insets bottom="1.0" right="1.0" />
+         </GridPane.margin>
+      </ScrollPane>
+      <VBox fx:id="VBOX_LOWERLEFT" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="2">
+         <children>
+            <Button fx:id="CLEAR_BUTTON" mnemonicParsing="false" onAction="#CLEAR_BUTTONOnAction" text="CLEAR">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="SEARCH_FOR_MEMBER_BUTTON" mnemonicParsing="false" text="Search for member">
+               <font>
+                  <Font size="15.0" />
+               </font>
+               <HBox.margin>
+                  <Insets bottom="10.0" left="70.0" right="10.0" top="10.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </VBox>
+   </children>
+</GridPane>
