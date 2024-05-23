@@ -31,7 +31,7 @@ public class MemberList implements Serializable {
         TextField name = new TextField();
         name.setMaxWidth(250);
 
-        try{
+
         Button search = new Button("Search");
         ArrayList<Member> webeloopin = FileCont.readMemberListFromFile("members_data.ser");
         search.setOnAction(event -> {
@@ -46,10 +46,7 @@ public class MemberList implements Serializable {
 
         mainContainerID.getChildren().addAll(lookup, name, search);
 
-        } catch (IOException | ClassNotFoundException | NumberFormatException e) {
-            System.out.println(e.getMessage());
-            throw new RuntimeException(e);
-        }
+
 //        InputManager.takeScannerInt();
 //
 //        if (lookup == 1){

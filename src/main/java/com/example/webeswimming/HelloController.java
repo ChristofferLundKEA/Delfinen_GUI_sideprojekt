@@ -6,9 +6,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 
-import java.io.EOFException;
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
+
 
 public class HelloController {
 
@@ -35,15 +35,24 @@ public class HelloController {
     @FXML
     Button ACCOUTNANT_EDIT_PAID_BUTTON = new Button("Toggle members paid status");
     @FXML
+    Button ACCOUNTANT_SEE_NONPAYERS = new Button("See non-payers");
+    @FXML
     Button ADMIN_CREATE_MEMBER_BUTTON = new Button("Create new Member");
     @FXML
     Button ADMIN_EDIT_MEMBER_BUTTON = new Button("Edit Member");
     @FXML
-    Button CREATE_RESULT_BUTTON = new Button("Create new Result");
+    Button ADMIN_REMOVE_MEMBER_BUTTON = new Button("Remove Member");
+    @FXML
+    Button TRAINER_CREATE_RESULT_BUTTON = new Button("Create new Result");
+    @FXML
+    Button TRAINER_SEE_RESULT = new Button("See Result");
+    @FXML
+    Button TRAINER_SEE_TOP_FIVE = new Button("See top 5");
     @FXML
     Button LIST_MEMBERS_BUTTON = new Button("List Members");
     @FXML
     boolean pass = true; // stand in for password function
+
     @FXML
     protected void initialize() {
         ToggleGroup radioGroup = new ToggleGroup();
@@ -65,30 +74,163 @@ public class HelloController {
         if (ADMIN_RB.isSelected() && pass) {
             mainContainerID.getChildren().clear();
             ADMIN_CREATE_MEMBER_BUTTON.setOnAction(event -> setUpNewMemberForm());
-            ADMIN_EDIT_MEMBER_BUTTON.setOnAction(event -> {
-                try {
-                    editMember();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (ClassNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-            mainContainerID.getChildren().addAll(ADMIN_CREATE_MEMBER_BUTTON, ADMIN_EDIT_MEMBER_BUTTON);
+            ADMIN_EDIT_MEMBER_BUTTON.setOnAction(event -> editMember());
+            ADMIN_REMOVE_MEMBER_BUTTON.setOnAction(event -> removeMember());
+            mainContainerID.getChildren().addAll(ADMIN_CREATE_MEMBER_BUTTON, ADMIN_EDIT_MEMBER_BUTTON, ADMIN_REMOVE_MEMBER_BUTTON);
         }
         if (TRAINER_RB.isSelected() && pass) {
             mainContainerID.getChildren().clear();
-            CREATE_RESULT_BUTTON.setOnAction(event -> createNewResult());
-            mainContainerID.getChildren().addAll(CREATE_RESULT_BUTTON);
+            TRAINER_CREATE_RESULT_BUTTON.setOnAction(event -> createNewResult());
+            TRAINER_SEE_RESULT.setOnAction(event -> seeMemberResult());
+            TRAINER_SEE_TOP_FIVE.setOnAction(event -> seeTopFive());
+            mainContainerID.getChildren().addAll(TRAINER_CREATE_RESULT_BUTTON, TRAINER_SEE_RESULT, TRAINER_SEE_TOP_FIVE);
         }
         if (ACCOUNTANT_RB.isSelected() && pass) {
             mainContainerID.getChildren().clear();
             ACCOUTNANT_EDIT_PAID_BUTTON.setOnAction(event -> editMemberHasPaidStatus());
-            mainContainerID.getChildren().addAll(ACCOUTNANT_EDIT_PAID_BUTTON);
+            ACCOUNTANT_SEE_NONPAYERS.setOnAction(event -> seeNonPayers());
+            mainContainerID.getChildren().addAll(ACCOUTNANT_EDIT_PAID_BUTTON, ACCOUNTANT_SEE_NONPAYERS);
         }
     }
 
-    public void editMember() throws IOException, ClassNotFoundException {
+    public void seeTopFive(){
+        mainContainerID.getChildren().clear();
+        Button seniorButton = new Button("Senior");
+        Button juniorButton = new Button("Junior");
+
+        seniorButton.setOnAction(event -> {
+            mainContainerID.getChildren().clear();
+            final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
+            TextField disciplineTextField = new TextField("Butterfly");
+            disciplineTextField.setMaxWidth(250);
+            Button submitButton = new Button("Submit");
+            mainContainerID.getChildren().addAll(disciplineTextField, submitButton);
+
+            submitButton.setOnAction(event1 -> {
+                String discipline = disciplineTextField.getText();
+                ArrayList<Member> members = FileCont.readMemberListFromFile("members_data.ser");
+                for (Member member : members) {
+                    if (member.age > 18){
+                        for (Result memberResult : member.personalResults) {
+                            if (memberResult.discipline.equalsIgnoreCase(discipline)) {
+                                topFive[0].add(memberResult);
+                            }
+                        }
+                    }
+                }
+
+                // Sort the results by resultInSeconds in ascending order
+                topFive[0].sort(Comparator.comparingInt(result -> result.resultInSeconds));
+
+                // Limit to top five results
+                if (topFive[0].size() > 5) {
+                    topFive[0] = new ArrayList<>(topFive[0].subList(0, 5));
+                }
+
+                // Display the top five results
+                mainContainerID.getChildren().clear();
+                for (Result result : topFive[0]) {
+                    Label resultLabel = new Label(result.toString());
+                    mainContainerID.getChildren().add(resultLabel);
+                }
+            });
+        });
+
+        juniorButton.setOnAction(event -> {
+            mainContainerID.getChildren().clear();
+            final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
+            TextField disciplineTextField = new TextField("Butterfly");
+            disciplineTextField.setMaxWidth(250);
+            Button submitButton = new Button("Submit");
+            mainContainerID.getChildren().addAll(disciplineTextField, submitButton);
+
+            submitButton.setOnAction(event1 -> {
+                String discipline = disciplineTextField.getText();
+                ArrayList<Member> members = FileCont.readMemberListFromFile("members_data.ser");
+                for (Member member : members) {
+                    if (member.age <= 18){
+                        for (Result memberResult : member.personalResults) {
+                            if (memberResult.discipline.equalsIgnoreCase(discipline)) {
+                                topFive[0].add(memberResult);
+                            }
+                        }
+                    }
+                }
+
+                // Sort the results by resultInSeconds in ascending order
+                topFive[0].sort(Comparator.comparingInt(result -> result.resultInSeconds));
+
+                // Limit to top five results
+                if (topFive[0].size() > 5) {
+                    topFive[0] = new ArrayList<>(topFive[0].subList(0, 5));
+                }
+
+                // Display the top five results
+                mainContainerID.getChildren().clear();
+                for (Result result : topFive[0]) {
+                    Label resultLabel = new Label(result.toString());
+                    mainContainerID.getChildren().add(resultLabel);
+                }
+            });
+        });
+        mainContainerID.getChildren().addAll(seniorButton, juniorButton);
+    }
+
+    public void removeMember(){
+        mainContainerID.getChildren().clear();
+        Label whatIDToRemoveLabel = new Label("What ID?");
+        TextField whatIDToRemoveTextField = new TextField();
+        whatIDToRemoveTextField.setMaxWidth(250);
+        Button removeMemberButton = new Button("Remove");
+        removeMemberButton.setOnAction(event -> {
+            ArrayList<Member> looper = FileCont.readMemberListFromFile("members_data.ser");
+            for (Member member : looper) {
+                if (member.memberID == Integer.parseInt(whatIDToRemoveTextField.getText())) {
+                    looper.remove(member);
+                    FileCont.writeToFile("members_data.ser", looper);
+                    Label removedLabel = new Label("Removed Member");
+                    mainContainerID.getChildren().add(removedLabel);
+                    break;
+                }
+            }
+        });
+        mainContainerID.getChildren().addAll(whatIDToRemoveLabel, whatIDToRemoveTextField, removeMemberButton);
+    }
+
+    public void seeMemberResult() {
+
+        mainContainerID.getChildren().clear();
+        Label whatIDLabel = new Label("What ID?");
+        TextField whatIDField = new TextField();
+        whatIDField.setMaxWidth(250);
+        Button submitButton = new Button("Submit");
+
+        submitButton.setOnAction(event -> {
+            ArrayList<Member> looplings = FileCont.readMemberListFromFile("members_data.ser");
+            Label membernameLabel = new Label("Member with ID: " + whatIDField.getText() + "'s results");
+            VBoxForScrollPane.getChildren().add(membernameLabel);
+            for (Member member : looplings) {
+
+                if (member.memberID == Integer.parseInt(whatIDField.getText())) {
+                    Label resultLabel = new Label(member.showPersonalResults());
+                    VBoxForScrollPane.getChildren().add(resultLabel);
+                }
+            }
+        });
+        mainContainerID.getChildren().addAll(whatIDLabel, whatIDField, submitButton);
+    }
+
+    public void seeNonPayers() {
+        VBoxForScrollPane.getChildren().clear();
+        ArrayList<Member> looptiloop = FileCont.readMemberListFromFile("members_data.ser");
+        for (Member member : looptiloop) {
+            Label nonPayingMemberLabel = new Label();
+            nonPayingMemberLabel.setText(member.toString());
+            if(!member.hasPaid) VBoxForScrollPane.getChildren().add(nonPayingMemberLabel);
+        }
+    }
+
+    public void editMember()  {
         mainContainerID.getChildren().clear();
         Label whatID = new Label("What ID do you want to edit?");
         TextField whatIDTextfield = new TextField();
@@ -123,11 +265,9 @@ public class HelloController {
                         m.gender = genderField.getText();
                         m.age = Integer.parseInt(ageField.getText());
                         m.phoneNumber = Integer.parseInt(phoneField.getText());
-                        try {
+
                             FileCont.writeToFile("members_data.ser", loopings);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+
                     });
 
                     mainContainerID.getChildren().addAll(firstNameField,
@@ -154,7 +294,7 @@ public class HelloController {
         whatMemberTextField.setMaxWidth(250);
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> {
-            try {
+
                 ArrayList<Member> loopdilopp = FileCont.readMemberListFromFile("members_data.ser");
                 for (Member member : loopdilopp) {
                     if (member.memberID == Integer.parseInt(whatMemberTextField.getText())) {
@@ -163,19 +303,15 @@ public class HelloController {
                         toggle.setOnAction(event2 -> {
                             System.out.println("toggled");
                             member.hasPaid = !member.hasPaid;
-                            try {
+
                                 FileCont.writeToFile("members_data.ser", loopdilopp);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
+
                         });
                         mainContainerID.getChildren().addAll(new Label(member.toString(), toggle));
 
                     }
                 }
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+
         });
         mainContainerID.getChildren().addAll(whatMemberLabel, whatMemberTextField, submitButton);
     }
@@ -185,7 +321,7 @@ public class HelloController {
     }
 
     public void listMembers() {
-        try{
+
             VBoxForScrollPane.getChildren().clear();
             ArrayList<Member> listToLoop = FileCont.readMemberListFromFile("members_data.ser");
             assert listToLoop != null : "listToLoop is null";
@@ -195,10 +331,7 @@ public class HelloController {
 
                 VBoxForScrollPane.getChildren().addAll(memberLabel);
             }
-        } catch (IOException | ClassNotFoundException e){
-            e.printStackTrace();
-            System.out.println(e.getMessage());
-        }
+
     }
 
     public void createNewResult() {
@@ -213,11 +346,9 @@ public class HelloController {
 
             int inputId = Integer.parseInt(ID.getText());
             ArrayList<Member> listFromFile = new ArrayList<>();
-            try {
+
                 listFromFile = FileCont.readMemberListFromFile("members_data.ser");
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+
             for (int i = 0; i < listFromFile.size(); i++){
                 if (listFromFile.get(i).memberID == inputId) {
                     found = true;
@@ -247,16 +378,13 @@ public class HelloController {
                         newResult.competitionName = CompetitionTextField.getText();
 
                         currentMember.addResult(newResult);
-                        System.out.println(finalListFromFile.get(4));
 
                         Label membertestlabel = new Label(currentMember.toString());
                         VBoxForScrollPane.getChildren().clear();
                         VBoxForScrollPane.getChildren().addAll(membertestlabel);
-                        try {
+
                             FileCont.writeToFile("members_data.ser", finalListFromFile);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+
 
                     });
                     mainContainerID.getChildren().addAll(disciplineResult,
@@ -329,21 +457,16 @@ public class HelloController {
             member.age = Integer.parseInt(ageField.getText());
             member.phoneNumber = Integer.parseInt(phoneNumberField.getText());
             MemberList.memberList.add(member);
-            try {
+
                 ArrayList<Member> toAddNewMember = new ArrayList<>();
-                try {
+
                     toAddNewMember = FileCont.readMemberListFromFile("members_data.ser");
-                }catch (EOFException e) {
-                    e.printStackTrace();
-                    System.out.println("First member added");
-                }
+
                 assert toAddNewMember != null : "toAddNewMember is null";
                 toAddNewMember.add(member);
 
                 FileCont.writeToFile("members_data.ser", toAddNewMember);
-            } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+
             Label memberLabel = new Label();
             memberLabel.setText("\nNew member added successfully" + member);
             VBoxForScrollPane.getChildren().addAll(memberLabel);

@@ -33,7 +33,7 @@ public class Member implements Serializable {
     }
 
     public int createUniqueMemberID() {
-        try {
+
             boolean isUnique;
             ArrayList<Member> memberList = FileCont.readMemberListFromFile("members_data.ser");
             Random random = new Random();
@@ -49,10 +49,7 @@ public class Member implements Serializable {
                 }
             } while (!isUnique);
             return randomInt;
-        }catch ( IOException | ClassNotFoundException e){
-            e.getMessage();
-        }
-        return 0;
+
     }
 
     public String showPersonalResults(){
@@ -80,6 +77,6 @@ public class Member implements Serializable {
                 "\nAge: " + age +
                 "\nMemberID: " + memberID +
                 "\nPhone: " + phoneNumber +
-                "\nResults: " + showPersonalResults();
+                "\nResults: " + showPersonalResults() + "\n";
     }
 }
