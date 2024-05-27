@@ -1,7 +1,6 @@
 package com.example.webeswimming;
 
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
@@ -35,7 +34,7 @@ public class Member implements Serializable {
     public int createUniqueMemberID() {
 
             boolean isUnique;
-            ArrayList<Member> memberList = FileCont.readMemberListFromFile("members_data.ser");
+            ArrayList<Member> memberList = FileController.readMemberListFromFile("members_data.ser");
             Random random = new Random();
             int randomInt;
             do {

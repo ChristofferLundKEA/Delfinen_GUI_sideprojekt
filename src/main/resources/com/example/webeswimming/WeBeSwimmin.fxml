@@ -1,30 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="598.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.webeswimming.HelloController">
+<GridPane fx:id="grid" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="693.0" prefWidth="734.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.webeswimming.HelloController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="146.0" />
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="856.0" minWidth="10.0" prefWidth="856.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="496.0" minWidth="10.0" prefWidth="213.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="856.0" minWidth="10.0" prefWidth="482.0" />
   </columnConstraints>
   <rowConstraints>
     <RowConstraints maxHeight="192.0" minHeight="0.0" prefHeight="99.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="434.0" minHeight="10.0" prefHeight="256.0" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="242.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="434.0" minHeight="10.0" prefHeight="294.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="358.0" minHeight="10.0" prefHeight="260.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <HBox fx:id="BACK_BUTTON" prefHeight="100.0" prefWidth="848.0" GridPane.columnIndex="1">
          <children>
-            <Label text="DELFINEN">
+            <Label nodeOrientation="LEFT_TO_RIGHT" prefHeight="109.0" prefWidth="638.0" text="DELFINEN">
                <font>
-                  <Font size="67.0" />
-               </font></Label>
+                  <Font name="Calibri Bold Italic" size="96.0" />
+               </font>
+               <padding>
+                  <Insets left="40.0" />
+               </padding></Label>
          </children>
       </HBox>
-      <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+      <VBox fx:id="VBOX_MID_LEFT" prefHeight="219.0" prefWidth="148.0" GridPane.rowIndex="1">
          <children>
             <RadioButton fx:id="ADMIN_RB" mnemonicParsing="false" text="ADMIN">
                <VBox.margin>
@@ -58,10 +63,16 @@
             </Button>
          </children>
          <padding>
-            <Insets left="5.0" right="5.0" top="5.0" />
+            <Insets left="5.0" right="5.0" top="30.0" />
          </padding>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
       </VBox>
-      <VBox fx:id="mainContainerID" prefHeight="434.0" prefWidth="861.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <VBox fx:id="mainContainerID" prefHeight="434.0" prefWidth="861.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <padding>
+            <Insets left="5.0" />
+         </padding></VBox>
       <ScrollPane fx:id="scrollPaneForData" fitToWidth="true" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2" GridPane.vgrow="ALWAYS">
          <content>
             <VBox fx:id="VBoxForScrollPane">
@@ -92,6 +103,18 @@
                </HBox.margin>
             </Button>
          </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
       </VBox>
+      <AnchorPane fx:id="ANCHORPANE_TOP_RIGHT" prefHeight="95.0" prefWidth="171.0">
+         <ImageView fx:id="IMAGEVIEW" fitHeight="149.0" fitWidth="151.0" layoutX="14.0" opacity="0.88" pickOnBounds="true">
+            <image>
+               <Image url="@../../../pictures/dolphin.png" />
+            </image>
+            <cursor>
+               <Cursor fx:constant="OPEN_HAND" />
+            </cursor></ImageView>
+      </AnchorPane>
    </children>
 </GridPane>

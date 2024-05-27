@@ -4,10 +4,10 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class FileCont {
+public class FileController {
 
     public static void writeToFile(String fileName, Serializable object) {
-        String directoryPath = Paths.get("").toAbsolutePath().toString() + File.separator + "data";
+        String directoryPath = Paths.get("").toAbsolutePath().toString() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "data";
         File directory = new File(directoryPath);
 
         if (!directory.exists()) {
@@ -25,7 +25,7 @@ public class FileCont {
 
 
     public static ArrayList<Member> readMemberListFromFile(String fileName) {
-        String directoryPath = Paths.get("").toAbsolutePath().toString() + File.separator + "data";
+        String directoryPath = Paths.get("").toAbsolutePath().toString() + File.separator + "src" + File.separator + "main" + File.separator + "resources" + File.separator + "data";
         String filePath = directoryPath + File.separator + fileName;
         File file = new File(filePath);
 
@@ -44,5 +44,4 @@ public class FileCont {
             return new ArrayList<>();
         }
     }
-
 }

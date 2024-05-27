@@ -2,8 +2,11 @@ package com.example.webeswimming;
 
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 
 import java.util.ArrayList;
@@ -12,6 +15,12 @@ import java.util.Comparator;
 
 public class HelloController {
 
+    @FXML
+    ImageView IMAGEVIEW = new ImageView();
+    @FXML
+    AnchorPane ANCHORPANE_TOP_RIGHT = new AnchorPane();
+    @FXML
+    VBox VBOX_MID_LEFT = new VBox(); ;
     @FXML
     Button SEARCH_FOR_MEMBER_BUTTON = new Button();
     @FXML
@@ -64,6 +73,15 @@ public class HelloController {
         VBoxForScrollPane.setPrefHeight(Region.USE_COMPUTED_SIZE);
         VBoxForScrollPane.setMinHeight(Region.USE_PREF_SIZE);
         VBOX_LOWERLEFT.getChildren().addAll(LIST_MEMBERS_BUTTON);
+        VBOX_LOWERLEFT.setPadding(new Insets(30, 10, 10, 10));
+        VBOX_LOWERLEFT.setSpacing(5);
+        mainContainerID.setSpacing(5);
+
+        BackgroundFill backgroundFill = new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, null);
+        Background background = new Background(backgroundFill);
+        VBOX_LOWERLEFT.setBackground(background);
+        VBOX_MID_LEFT.setBackground(background);
+        ANCHORPANE_TOP_RIGHT.setBackground(background);
 
         //Button events
         LIST_MEMBERS_BUTTON.setOnAction(event -> listMembers());
@@ -101,14 +119,15 @@ public class HelloController {
         seniorButton.setOnAction(event -> {
             mainContainerID.getChildren().clear();
             final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
+            Label disciplineLabel = new Label("Discipline");
             TextField disciplineTextField = new TextField("Butterfly");
             disciplineTextField.setMaxWidth(250);
             Button submitButton = new Button("Submit");
-            mainContainerID.getChildren().addAll(disciplineTextField, submitButton);
+            mainContainerID.getChildren().addAll(disciplineLabel, disciplineTextField, submitButton);
 
             submitButton.setOnAction(event1 -> {
                 String discipline = disciplineTextField.getText();
-                ArrayList<Member> members = FileCont.readMemberListFromFile("members_data.ser");
+                ArrayList<Member> members = FileController.readMemberListFromFile("members_data.ser");
                 for (Member member : members) {
                     if (member.age > 18){
                         for (Result memberResult : member.personalResults) {
@@ -131,7 +150,7 @@ public class HelloController {
                 mainContainerID.getChildren().clear();
                 for (Result result : topFive[0]) {
                     Label resultLabel = new Label(result.toString());
-                    mainContainerID.getChildren().add(resultLabel);
+                    VBoxForScrollPane.getChildren().add(resultLabel);
                 }
             });
         });
@@ -139,14 +158,15 @@ public class HelloController {
         juniorButton.setOnAction(event -> {
             mainContainerID.getChildren().clear();
             final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
+            Label disciplineLabel = new Label("Discipline");
             TextField disciplineTextField = new TextField("Butterfly");
             disciplineTextField.setMaxWidth(250);
             Button submitButton = new Button("Submit");
-            mainContainerID.getChildren().addAll(disciplineTextField, submitButton);
+            mainContainerID.getChildren().addAll(disciplineLabel, disciplineTextField, submitButton);
 
             submitButton.setOnAction(event1 -> {
                 String discipline = disciplineTextField.getText();
-                ArrayList<Member> members = FileCont.readMemberListFromFile("members_data.ser");
+                ArrayList<Member> members = FileController.readMemberListFromFile("members_data.ser");
                 for (Member member : members) {
                     if (member.age <= 18){
                         for (Result memberResult : member.personalResults) {
@@ -169,7 +189,7 @@ public class HelloController {
                 mainContainerID.getChildren().clear();
                 for (Result result : topFive[0]) {
                     Label resultLabel = new Label(result.toString());
-                    mainContainerID.getChildren().add(resultLabel);
+                    VBoxForScrollPane.getChildren().add(resultLabel);
                 }
             });
         });
@@ -183,11 +203,11 @@ public class HelloController {
         whatIDToRemoveTextField.setMaxWidth(250);
         Button removeMemberButton = new Button("Remove");
         removeMemberButton.setOnAction(event -> {
-            ArrayList<Member> looper = FileCont.readMemberListFromFile("members_data.ser");
+            ArrayList<Member> looper = FileController.readMemberListFromFile("members_data.ser");
             for (Member member : looper) {
                 if (member.memberID == Integer.parseInt(whatIDToRemoveTextField.getText())) {
                     looper.remove(member);
-                    FileCont.writeToFile("members_data.ser", looper);
+                    FileController.writeToFile("members_data.ser", looper);
                     Label removedLabel = new Label("Removed Member");
                     mainContainerID.getChildren().add(removedLabel);
                     break;
@@ -206,7 +226,7 @@ public class HelloController {
         Button submitButton = new Button("Submit");
 
         submitButton.setOnAction(event -> {
-            ArrayList<Member> looplings = FileCont.readMemberListFromFile("members_data.ser");
+            ArrayList<Member> looplings = FileController.readMemberListFromFile("members_data.ser");
             Label membernameLabel = new Label("Member with ID: " + whatIDField.getText() + "'s results");
             VBoxForScrollPane.getChildren().add(membernameLabel);
             for (Member member : looplings) {
@@ -222,7 +242,7 @@ public class HelloController {
 
     public void seeNonPayers() {
         VBoxForScrollPane.getChildren().clear();
-        ArrayList<Member> looptiloop = FileCont.readMemberListFromFile("members_data.ser");
+        ArrayList<Member> looptiloop = FileController.readMemberListFromFile("members_data.ser");
         for (Member member : looptiloop) {
             Label nonPayingMemberLabel = new Label();
             nonPayingMemberLabel.setText(member.toString());
@@ -237,7 +257,7 @@ public class HelloController {
         Button SubmitButton = new Button("Submit");
         whatIDTextfield.setMaxWidth(250);
         mainContainerID.getChildren().addAll(whatID, whatIDTextfield, SubmitButton);
-        ArrayList<Member> loopings = FileCont.readMemberListFromFile("members_data.ser");
+        ArrayList<Member> loopings = FileController.readMemberListFromFile("members_data.ser");
         SubmitButton.setOnAction(event -> {
             for (Member m : loopings) {
                 if (m.memberID == Integer.parseInt(whatIDTextfield.getText())) {
@@ -266,7 +286,7 @@ public class HelloController {
                         m.age = Integer.parseInt(ageField.getText());
                         m.phoneNumber = Integer.parseInt(phoneField.getText());
 
-                            FileCont.writeToFile("members_data.ser", loopings);
+                            FileController.writeToFile("members_data.ser", loopings);
 
                     });
 
@@ -295,7 +315,7 @@ public class HelloController {
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> {
 
-                ArrayList<Member> loopdilopp = FileCont.readMemberListFromFile("members_data.ser");
+                ArrayList<Member> loopdilopp = FileController.readMemberListFromFile("members_data.ser");
                 for (Member member : loopdilopp) {
                     if (member.memberID == Integer.parseInt(whatMemberTextField.getText())) {
                         mainContainerID.getChildren().clear();
@@ -304,7 +324,7 @@ public class HelloController {
                             System.out.println("toggled");
                             member.hasPaid = !member.hasPaid;
 
-                                FileCont.writeToFile("members_data.ser", loopdilopp);
+                                FileController.writeToFile("members_data.ser", loopdilopp);
 
                         });
                         mainContainerID.getChildren().addAll(new Label(member.toString(), toggle));
@@ -323,7 +343,7 @@ public class HelloController {
     public void listMembers() {
 
             VBoxForScrollPane.getChildren().clear();
-            ArrayList<Member> listToLoop = FileCont.readMemberListFromFile("members_data.ser");
+            ArrayList<Member> listToLoop = FileController.readMemberListFromFile("members_data.ser");
             assert listToLoop != null : "listToLoop is null";
             for (Member member : listToLoop) {
                 Label memberLabel = new Label();
@@ -347,7 +367,7 @@ public class HelloController {
             int inputId = Integer.parseInt(ID.getText());
             ArrayList<Member> listFromFile = new ArrayList<>();
 
-                listFromFile = FileCont.readMemberListFromFile("members_data.ser");
+                listFromFile = FileController.readMemberListFromFile("members_data.ser");
 
             for (int i = 0; i < listFromFile.size(); i++){
                 if (listFromFile.get(i).memberID == inputId) {
@@ -383,7 +403,7 @@ public class HelloController {
                         VBoxForScrollPane.getChildren().clear();
                         VBoxForScrollPane.getChildren().addAll(membertestlabel);
 
-                            FileCont.writeToFile("members_data.ser", finalListFromFile);
+                            FileController.writeToFile("members_data.ser", finalListFromFile);
 
 
                     });
@@ -460,12 +480,12 @@ public class HelloController {
 
                 ArrayList<Member> toAddNewMember = new ArrayList<>();
 
-                    toAddNewMember = FileCont.readMemberListFromFile("members_data.ser");
+                    toAddNewMember = FileController.readMemberListFromFile("members_data.ser");
 
                 assert toAddNewMember != null : "toAddNewMember is null";
                 toAddNewMember.add(member);
 
-                FileCont.writeToFile("members_data.ser", toAddNewMember);
+                FileController.writeToFile("members_data.ser", toAddNewMember);
 
             Label memberLabel = new Label();
             memberLabel.setText("\nNew member added successfully" + member);
