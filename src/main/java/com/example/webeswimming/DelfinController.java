@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 
 
-public class HelloController {
+public class DelfinController {
 
     @FXML
     ImageView IMAGEVIEW = new ImageView();
