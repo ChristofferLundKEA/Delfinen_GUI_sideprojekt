@@ -10,8 +10,6 @@ public class Member implements Serializable {
     String surName;
     String gender;
     boolean hasPaid = false;
-    boolean isActiveMember = true;
-    int team;
     int age;
     int memberID = MemberList.memberList.size() + 1;
     int phoneNumber;
@@ -67,14 +65,13 @@ public class Member implements Serializable {
     @Override
     public String toString() {
         return
-                "\nFirstName: " + firstName +
-                "\nSurname: " + surName +
+                "____________________________________" +
+                "\nFirst Name: " + firstName +
+                "\nLast name: " + surName +
                 "\nGender: " + gender +
-                "\nThis person has paid: " + hasPaid +
-                "\nThis person is active: " + isActiveMember +
-                "\nTeam: " + team +
+                "\nLate on payment: " + hasPaid +
                 "\nAge: " + age +
-                "\nMemberID: " + memberID +
+                "\nMember ID: " + memberID +
                 "\nPhone: " + phoneNumber +
                 "\nResults: " + showPersonalResults() + "\n";
     }

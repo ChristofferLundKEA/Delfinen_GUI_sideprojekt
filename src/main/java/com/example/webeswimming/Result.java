@@ -17,6 +17,6 @@ public class Result implements Serializable {
     public String toString() {
         return "\n    Name of competition: " + competitionName +
                 "\n     Discipline: " + discipline +
-                "\n     Result in seconds: " + resultInSeconds + "\n" ;
+                "\n     Result in seconds: " + resultInSeconds ;
     }
 }

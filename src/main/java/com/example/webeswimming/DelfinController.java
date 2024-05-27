@@ -117,7 +117,8 @@ public class DelfinController {
         Button juniorButton = new Button("Junior");
 
         seniorButton.setOnAction(event -> {
-            mainContainerID.getChildren().clear();
+            mainContainerID.getChildren().remove(juniorButton);
+            seniorButton.setDisable(true);
             final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
             Label disciplineLabel = new Label("Discipline");
             TextField disciplineTextField = new TextField("Butterfly");
@@ -147,7 +148,6 @@ public class DelfinController {
                 }
 
                 // Display the top five results
-                mainContainerID.getChildren().clear();
                 for (Result result : topFive[0]) {
                     Label resultLabel = new Label(result.toString());
                     VBoxForScrollPane.getChildren().add(resultLabel);
@@ -156,7 +156,8 @@ public class DelfinController {
         });
 
         juniorButton.setOnAction(event -> {
-            mainContainerID.getChildren().clear();
+            mainContainerID.getChildren().remove(seniorButton);
+            juniorButton.setDisable(true);
             final ArrayList<Result>[] topFive = new ArrayList[]{new ArrayList<>()};
             Label disciplineLabel = new Label("Discipline");
             TextField disciplineTextField = new TextField("Butterfly");
@@ -186,7 +187,6 @@ public class DelfinController {
                 }
 
                 // Display the top five results
-                mainContainerID.getChildren().clear();
                 for (Result result : topFive[0]) {
                     Label resultLabel = new Label(result.toString());
                     VBoxForScrollPane.getChildren().add(resultLabel);
@@ -245,7 +245,11 @@ public class DelfinController {
         ArrayList<Member> looptiloop = FileController.readMemberListFromFile("members_data.ser");
         for (Member member : looptiloop) {
             Label nonPayingMemberLabel = new Label();
-            nonPayingMemberLabel.setText(member.toString());
+            nonPayingMemberLabel.setText("Name : " + member.firstName +
+                    " " +  member.surName +
+                    "\nID: " + member.memberID +
+                    "\nPhone: " + member.phoneNumber +
+                    "\n____________________________________");
             if(!member.hasPaid) VBoxForScrollPane.getChildren().add(nonPayingMemberLabel);
         }
     }
@@ -314,20 +318,29 @@ public class DelfinController {
         whatMemberTextField.setMaxWidth(250);
         Button submitButton = new Button("Submit");
         submitButton.setOnAction(event -> {
-
                 ArrayList<Member> loopdilopp = FileController.readMemberListFromFile("members_data.ser");
                 for (Member member : loopdilopp) {
                     if (member.memberID == Integer.parseInt(whatMemberTextField.getText())) {
                         mainContainerID.getChildren().clear();
                         Button toggle = new Button("Toggle");
+                        Label memberLabel = new Label();
+                        memberLabel.setText("Name : " + member.firstName +
+                                " " +  member.surName +
+                                "\nID: " + member.memberID +
+                                "\nPayment status: " + member.hasPaid +
+                                "\n____________________________________");
                         toggle.setOnAction(event2 -> {
-                            System.out.println("toggled");
                             member.hasPaid = !member.hasPaid;
-
                                 FileController.writeToFile("members_data.ser", loopdilopp);
-
+                                mainContainerID.getChildren().clear();
+                                memberLabel.setText("Name : " + member.firstName +
+                                    " " +  member.surName +
+                                    "\nID: " + member.memberID +
+                                    "\nPayment status: " + member.hasPaid +
+                                    "\n____________________________________");
+                                mainContainerID.getChildren().addAll(toggle, memberLabel);
                         });
-                        mainContainerID.getChildren().addAll(new Label(member.toString(), toggle));
+                        mainContainerID.getChildren().addAll(toggle, memberLabel);
 
                     }
                 }
