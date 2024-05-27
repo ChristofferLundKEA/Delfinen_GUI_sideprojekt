@@ -1,6 +1,5 @@
 package com.example.webeswimming;
 
-
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
@@ -8,10 +7,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-
 import java.util.ArrayList;
 import java.util.Comparator;
-
 
 public class DelfinController {
 
@@ -59,8 +56,8 @@ public class DelfinController {
     Button TRAINER_SEE_TOP_FIVE = new Button("See top 5");
     @FXML
     Button LIST_MEMBERS_BUTTON = new Button("List Members");
-    @FXML
-    boolean pass = true; // stand in for password function
+
+    boolean pass = true; // stand-in for password function
 
     @FXML
     protected void initialize() {
